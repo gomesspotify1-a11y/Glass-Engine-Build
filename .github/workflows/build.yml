@@ -1,4 +1,4 @@
-name: Build 8BPGlass APK
+name: Build 8BPGlass Native Libs
 on:
   push:
     branches: [ main ]
@@ -8,23 +8,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
     - name: Setup NDK
+      uses: nttld/setup-ndk@v1
+      with:
+        ndk-version: r25c
+        add-to-path: true
+    - name: Build Native Library
       run: |
-        echo "y" | sdkmanager "ndk;25.2.9519653"
-        echo "ANDROID_NDK_HOME=$$ANDROID_SDK_ROOT/ndk/25.2.9519653" >> $$GITHUB_ENV
-    - name: Build APK
-      run: |
-        chmod +x gradlew
-        ./gradlew assembleDebug --stacktrace
-    - name: Upload APK
+        cd jni
+        $ANDROID_NDK_HOME/ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk NDK_APPLICATION_MK=Application.mk
+    - name: Upload Compiled Libs
       uses: actions/upload-artifact@v4
       with:
-        name: 8BPGlass-APK
-        path: app/build/outputs/apk/debug/*.apk
+        name: 8BPGlass-Compiled-Libs
+        path: jni/libs/
