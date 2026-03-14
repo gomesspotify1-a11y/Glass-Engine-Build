@@ -22,11 +22,14 @@
 #endif
 
 inline bool Login(std::string androidID, std::string key) {
+    // Se a key estiver vazia, dá erro
     if (key.empty()) {
         ERROR_MESSAGE = "Digite a Key!";
         return false;
     }
-    if (key.length() >= 10 && key.substr(0, 6) == "GLASS-") {
+
+    // Se a key começar com "GLASS-", libera na hora!
+    if (key.find("GLASS-") == 0) {
         logged_in = true;
         bValid = true;
         g_Token = "OK";
@@ -34,7 +37,8 @@ inline bool Login(std::string androidID, std::string key) {
         is_logging_in = false;
         return true;
     }
-    ERROR_MESSAGE = "Key invalida!";
+
+    ERROR_MESSAGE = "Key Invalida!";
     return false;
 }
 
