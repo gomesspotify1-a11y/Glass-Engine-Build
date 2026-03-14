@@ -1,3 +1,4 @@
+#define MAIN_CPP
 #include "include/includes.h"
 #include "include/hook.h"
 
