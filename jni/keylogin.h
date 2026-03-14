@@ -6,6 +6,7 @@
 #ifdef MAIN_CPP
     bool bValid = false;
     bool logged_in = false;
+    bool is_logging_in = false;
     std::string ERROR_MESSAGE = "";
     std::string g_ExpTime = "Ativa";
     std::string g_Token = "OK";
@@ -13,6 +14,7 @@
 #else
     extern bool bValid;
     extern bool logged_in;
+    extern bool is_logging_in;
     extern std::string ERROR_MESSAGE;
     extern std::string g_ExpTime;
     extern std::string g_Token;
@@ -29,6 +31,7 @@ inline bool Login(std::string androidID, std::string key) {
         bValid = true;
         g_Token = "OK";
         g_Auth = "OK";
+        is_logging_in = false;
         return true;
     }
     ERROR_MESSAGE = "Key invalida!";
